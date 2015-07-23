@@ -1,0 +1,22 @@
+{
+  "name": "storyteller",
+  "version": "0.0.1",
+  "description": "my first socket.io app",
+  "dependencies": {
+    "express": "~4.10.2",
+    "socket.io": "~1.2.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/theepicsnail/storyteller.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/theepicsnail/storyteller/issues"
+  }
+}
