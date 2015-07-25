@@ -90,6 +90,26 @@ function setup() {
 
   });
 
+
+  var leftMin = 200;
+  var rightMin = 200;
+  $('#split-bar').mousedown(function (e) {
+      console.log('a');
+      e.preventDefault();
+      $(document).mousemove(function (e) {
+          e.preventDefault();
+          var x = e.pageX - $('#left').offset().left;
+          if (x > leftMin && e.pageX < ($(window).width() - rightMin)) {
+            $('#left').css("width", x);
+         //   $('#right').css("margin-left", x+6);
+          }
+      })
+  });
+  console.log($('#split-bar'));
+  $(document).mouseup(function (e) {
+      $(document).unbind('mousemove');
+  });
+
 }
 
 function setLockState(id, state){
@@ -150,3 +170,5 @@ socket.on('editor', function(msg){$('#editor').val(msg);});
 socket.on('storyerror', function() {
   console.warn.apply(console, arguments);
 });
+
+
