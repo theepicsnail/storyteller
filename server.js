@@ -1,7 +1,8 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var fs = require('fs');
+var files = require('./project')('./save.json');
+
 function serve(path, file) {
   if(file == undefined)
     file = path
@@ -22,37 +23,6 @@ serve('/save.json')
 http.listen(3000, function(){
   console.log('listening on *:3000');
 });
-
-
-
-
-hashCode = function(s){
-  return s.split("").reduce(
-    function(a,b){
-      a=((a<<5)-a)+b.charCodeAt(0);
-    return a&a},0);
-}
-var lastHash = 0;
-function writeToDisk() {
-  var data = JSON.stringify(files, null, 2);
-  var hash = hashCode(data);
-  if(hash != lastHash) {
-    lastHash = hash;
-    fs.writeFile('save.json', data);
-    console.log("Saved");
-  }
-}
-setInterval(writeToDisk, 1000);
-// save updated data every 1 seconds (if necessary)
-
-files = {}
-try{
-  files = require('./save.json');
-  console.log("Restored from save.json");
-}catch(err){
-  console.log("Couldn't restore from save.json:");
-  console.log(err);
-}
 
 function fileNameToId(name) {
   var out = [];
