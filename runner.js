@@ -25,13 +25,18 @@ function include(page) {
 }
 
 var page_history=[];
+var settingPage = false;
 function setPage(page) {
+  settingPage = true;
   console.log('setPage', page);
   content = include(page)
   if(content == undefined)
     return
   page_history.push(page)
-  document.body.innerHTML=content
+
+  if(settingPage)
+    document.body.innerHTML=content
+  settingPage = false
 }
 function back() {
   page_history.pop();
