@@ -1,8 +1,10 @@
-var app = require('express')();
+var express = require('express')
+var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var files = require('./project')('./save.json');
 
+app.use(express.static('.'));
 function serve(path, file) {
   if(file == undefined)
     file = path
@@ -166,7 +168,7 @@ function saveFile(socket, data) {
   console.log(socket.id, "saving", data);
   var fileid = ownedBy[socket.id];
   if(files[fileid]== undefined) {
-    console.log('unknown file');
+    console.log(socket.id,'has no file locks');
     return
   }
   files[fileid].text = data;

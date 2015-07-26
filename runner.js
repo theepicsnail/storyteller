@@ -24,12 +24,18 @@ function include(page) {
   return _.template(content)(window.state)
 }
 
+var page_history=[];
 function setPage(page) {
   console.log('setPage', page);
   content = include(page)
   if(content == undefined)
     return
+  page_history.push(page)
   document.body.innerHTML=content
+}
+function back() {
+  page_history.pop();
+  setPage(page_history.pop())
 }
 
 function css(code) {
@@ -100,10 +106,23 @@ function website(text, url) {
   return textCallback(text, window.open.bind(window), url);
 }
 
-function dump(obj) {
+function table(data) {
   out = "<table>";
-  for(var k in obj) {
-    out += "<tr><td>" + k + "</td><td>" + obj[k] +"</td></tr>";
+  for(var row in data) {
+    out += "<tr>";
+    for(var col in data[row]){
+      out += "<td>" + data[row][col] +"</td>";
+    }
+    out += "</tr>";
   }
   return out +"</table>";
 }
+
+function image(url) {
+  return $('<img>')
+    .attr({
+      src:url
+    })
+  .prop('outerHTML');
+}
+

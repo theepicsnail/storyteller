@@ -1,0 +1,66 @@
+{
+  "p1437804651379": {
+    "name": "Main",
+    "text": "<%// Main \nnonLinear = website('non linear', 'https://en.wikipedia.org/wiki/Nonlinear_gameplay')\ntechnologies = [\n  website('underscorejs templates', 'http://underscorejs.org/#template'),\n  website('material design lite', 'http://www.getmdl.io/started/'),\n  website('jquery', 'https://jquery.com/'),\n  website('StoryTeller', 'https://github.com/theepicsnail/StoryTeller')\n]\n%>\n\n<h3>StoryTeller</h3>\n\nStoryTeller is a tool for creating <%=nonLinear%> browser games!\n<br>\n\nWrite stories using: \n<ul>\n<% _.each(technologies, function(tech) {\n  print(\"<li>\" + tech + \"</li>\")\n});%>\n</ul>\n\nA <%=link('tutorial', 'TutorialStart')%> might be a good place to begin.\n<%// -> TutorialStart %>\n<br>\nOr skip to the <%=link('scripting guide', 'ScriptingGuide')%>\n<%// -> ScriptingGuide %>",
+    "pos": {
+      "top": 70,
+      "left": 150
+    },
+    "connectTo": [
+      "p1437815932298",
+      "p1437876283625"
+    ]
+  },
+  "p1437815932298": {
+    "name": "TutorialStart",
+    "text": "<%// TutorialStart %>\n<%// -> StoryEditor %>\n<%// -> TextEditor %>\n<%=include('Header')%>\nFirst, open the <%=website('editor', '/edit')%>.<br>\n<br>\nThe editor is split into 2 resizable panels. <br>\n\n<div style='display:inline-block'>\n<%=image('res/editview.png')%>\n<br>\n<span style='float:left'>\nThe left panel is the <%=link('story editor', 'StoryEditor')%>.\n</span>\n\n<span style='float:right'>\nThe right panel is the <%=link('text editor', 'TextEditor')%>.\n</span>\n</div>",
+    "pos": {
+      "top": 190,
+      "left": 150
+    },
+    "connectTo": [
+      "p1437817340405",
+      "p1437817395183"
+    ]
+  },
+  "p1437816916971": {
+    "name": "Header",
+    "text": "<%// Header %>\n<h3>StoryTeller</h3>\n<span><%=link('Home', 'Main')%></span>\n<span><%=textCallback('Back', back)%></span>\n<hr>",
+    "pos": {
+      "top": 70,
+      "left": 40
+    },
+    "connectTo": []
+  },
+  "p1437817340405": {
+    "name": "StoryEditor",
+    "text": "<%// StoryEditor\nprint(include('Header')) %>\n\n<pre>\nThis is the story editor!\nIt's where you can see and edit the parts of your story.\n</pre>\n<%=image('res/storyeditor.png')%><br>\n\n<% \ncontrols=[\n  [\"New Passage\", \"will create a new file in your project\"],\n  [\"Delete Passage\", \"will delete the file you're currently editing\"],\n  [\"Dragging\", \"a passage will move it around the story board\"],\n  [\"Double clicking\", \"will open that file for editing\"]];\n\nfor(id in controls) {\n  control = controls[id];\n%>\n[<b><%=control[0]%></b>] <span> <%=control[1]%></span><br>\n<%}%>\n\nThe arrows are added by adding comments in the body of the file. <br>\nSee the <%=link('text editor', 'TextEditor')%> tutorial for more!\n<%// -> TextEditor %>",
+    "pos": {
+      "top": 240,
+      "left": 340
+    },
+    "connectTo": [
+      "p1437817395183"
+    ]
+  },
+  "p1437817395183": {
+    "name": "TextEditor",
+    "text": "<%// TextEditor \nprint(include('Header'))\n%>\n<%// -> ScriptingGuide %>\n\nThe text editor is a normal text area field. <br>\nWhen you open a file, it will display the contents as an editable field. <br>\nChanges are automatically sent to the server, no saving involved!<br>\nRead the <%=link('scripting guide', 'ScriptingGuide')%> to learn about writing StoryTeller stories!",
+    "pos": {
+      "top": 150,
+      "left": 340
+    },
+    "connectTo": [
+      "p1437876283625"
+    ]
+  },
+  "p1437876283625": {
+    "name": "ScriptingGuide",
+    "text": "<%// ScriptingGuide\nprint(include('Header'))\nend ='%'+'>'; // workaround for underscore bug.\njavascript_template = '<% ... ' + end;\nescaped_template = '<%- ... ' + end;\nvalue_template = '<%= ... ' + end;\n%>\n\nEach passage starts out with a header that tells StoryTeller the name of the passage.<br>\n<b><%-'<%// PassageName '+end%></b> is a common way to start a file.<br>\n<br>\nAfter this line, You can use the same comment style to create arrows in the story viewer.<br>\n<b><%-'<%// -> OtherPassage '+end%></b> will link from the current passage to 'OtherPassage'<br>\n<br>\n\nWhen a passage is entered (through setPage) the passage is evaluated and placed as the content on the page.<br>\n<br>\nThere are 3 template types you can use throughout the your passage:\n<%=\n  table([\n    [value_template, 'insert a value from javascript into the page'],\n    [escaped_template, 'same as above, only also escaping html characters'],\n    [javascript_template, 'run javascript in the page'],\n  ])\n%>\n<br>\nStoryTeller and Underscore provide some helper functions to get you where you're going. <br>\n\n<%=\n  table([\n    ['<b>Page movement</b>'],\n    ['setPage(passage)', 'Moves the player to the given passage'],\n    ['back()', 'Moves the player back 1 passage'],\n\n    ['<b>Content creation</b>'],\n    ['table(data)', 'Create a table from data (a 2d array)'],\n    ['button(text, passage)', 'Create a button that moves the player to a new passage'],\n    ['link(text, passage)', 'Similar to button, but renders an anchor tag'],\n    ['website(text, url)', 'Clickable text that open the url in a new tab'],\n    ['image(url)', 'Insert the given image into the document'],\n\n    ['<b>Lower level</b>'],\n    ['print(string)', 'render a string from inside javascript'],\n    ['textCallback(text, callback)', 'Links text to callback, calling it when the text is clicked'],\n    ['include(passage)', 'render the provided passage and insert it into this passage'],\n    ['passageContent(passage)', 'get the contents of a passage'],\n\n    ['<b>Non html passage interpreters</b>'],\n    ['css(passage)', 'Evaluates the given passage as a css stylesheet'],\n    ['js(passage)', 'Evaluates the given passage as a js script'],\n    \n  ])\n%>",
+    "pos": {
+      "top": 70,
+      "left": 340
+    },
+    "connectTo": []
+  }
+}

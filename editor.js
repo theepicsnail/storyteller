@@ -38,7 +38,12 @@ function newPassage(id) {
     downPos = $(d).position();
   });
   $(d).mouseup(function(evt){
+
     var pos = $(d).position();
+    var par_pos = $(d).parent().position();
+    pos.top -= par_pos.top;
+    pos.left -= par_pos.left;
+
     if(pos.top==downPos.top && pos.left == downPos.Left)
       return;
     console.log('passage move', id, pos);
